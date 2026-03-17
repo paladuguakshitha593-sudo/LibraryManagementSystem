@@ -1,0 +1,335 @@
+/* AddBook Styles */
+.add-book-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-card {
+  padding: 3rem;
+}
+
+.form-card h2 {
+  font-size: 1.75rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.book-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  align-items: flex-start;
+}
+
+.form-row-single {
+  max-width: 50%;
+}
+
+.status-message {
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.status-message.success {
+  background-color: #D1FAE5;
+  color: #065F46;
+}
+
+.status-message.error {
+  background-color: #FEE2E2;
+  color: #991B1B;
+}
+
+/* BookList Styles */
+.books-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.books-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  color: var(--text-muted);
+}
+
+.search-bar input {
+  padding-left: 2.75rem;
+  border-radius: var(--radius-xl);
+  background-color: var(--surface);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.75rem;
+}
+
+@media (max-width: 1400px) { .books-grid { grid-template-columns: repeat(5, 1fr); } }
+@media (max-width: 1100px) { .books-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 900px) { .books-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .books-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 400px) { .books-grid { grid-template-columns: repeat(1, 1fr); } }
+
+.book-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0.85rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  min-height: 380px;
+}
+
+.book-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.delete-icon-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.book-card:hover .delete-icon-btn {
+  opacity: 1;
+}
+
+.delete-icon-btn:hover {
+  background: #ef4444;
+  color: white;
+  transform: scale(1.1);
+}
+
+.book-cover {
+  background-color: var(--bg-color);
+  height: 120px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  color: var(--text-muted);
+  overflow: hidden;
+}
+
+.actual-book-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.book-card:hover .actual-book-image {
+  transform: scale(1.05);
+}
+
+.book-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-bottom: 0.75rem;
+}
+
+.book-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-main);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.book-author {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.book-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.book-meta-row span {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.book-like-row {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-color);
+  margin-bottom: 0.5rem;
+}
+
+.like-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 9999px;
+  padding: 0.25rem 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.like-btn.liked {
+  background: rgba(225, 29, 72, 0.1);
+  border-color: #E11D48;
+  color: #E11D48;
+}
+
+.like-display-only {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.book-transaction-zone {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.duration-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.total-preview {
+  color: #10B981;
+  font-weight: 700;
+}
+
+.duration-slider {
+  width: 100%;
+  height: 4px;
+  margin-bottom: 0.75rem;
+}
+
+.action-buttons-row {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.borrow-btn-dynamic {
+  flex: 1;
+  font-size: 0.75rem;
+  padding: 0.4rem !important;
+}
+
+.btn-return-icon {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+}
+
+.action-success-bubble {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+}
+
+.col-span-full {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted);
+}
+
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.filter-chip {
+  padding: 0.3rem 0.8rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+}
+
+.book-badge {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.65rem;
+  margin-bottom: 0.4rem;
+}
+
+.out-of-stock-badge {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+}

@@ -38,7 +38,9 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/books/all", "/api/books/test", "/api/books/test-db").permitAll()
+                .requestMatchers("/api/books/all", "/api/books/test", "/api/books/ai-diag").permitAll()
+                .requestMatchers("/api/books/add", "/api/books/{id}", "/api/books/{id}/like").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             );
 

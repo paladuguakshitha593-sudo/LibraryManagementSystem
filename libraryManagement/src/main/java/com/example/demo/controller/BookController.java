@@ -29,20 +29,12 @@ public class BookController {
 
     @GetMapping("/test-db")
     public String testDb() {
-        try {
-            return "Database OK! Books count: " + bookService.getAllBooks().size();
-        } catch (Throwable e) {
-            return "DB ERROR: " + e.getMessage();
-        }
+        return "Database OK! Books count: " + bookService.getAllBooks().size();
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllBooks() {
-        try {
-            return ResponseEntity.ok(bookService.getAllBooks());
-        } catch (Throwable e) {
-            return ResponseEntity.ok("SERVICE ERROR: " + e.getMessage());
-        }
+    public List<Book> getAllBooks() {
+        return bookService.getAllBooks();
     }
 
     // 2. POST ENDPOINTS
@@ -55,30 +47,19 @@ public class BookController {
     // 3. DYNAMIC PATHS LAST
     
     @GetMapping("/{id}")
-    public ResponseEntity<?> getBookById(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(bookService.getBookById(id));
-        } catch (Throwable e) {
-            return ResponseEntity.ok("ERROR: " + e.getMessage());
-        }
+    public Book getBookById(@PathVariable Long id) {
+        return bookService.getBookById(id)
+            .orElseThrow(() -> new RuntimeException("Book not found"));
     }
 
     @PostMapping("/{id}/like")
-    public ResponseEntity<?> likeBook(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(bookService.likeBook(id));
-        } catch (Throwable e) {
-            return ResponseEntity.ok("ERROR: " + e.getMessage());
-        }
+    public Book likeBook(@PathVariable Long id) {
+        return bookService.likeBook(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable Long id) {
-        try {
-            bookService.deleteBook(id);
-            return ResponseEntity.ok("Book deleted successfully.");
-        } catch (Throwable e) {
-            return ResponseEntity.ok("ERROR: " + e.getMessage());
-        }
+    public ResponseEntity<String> deleteBook(@PathVariable Long id) {
+        bookService.deleteBook(id);
+        return ResponseEntity.ok("Book deleted successfully.");
     }
 }

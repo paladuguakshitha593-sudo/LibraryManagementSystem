@@ -78,7 +78,7 @@ public class UserService {
             throw new RuntimeException("Not a user account");
         }
 
-        String token = jwtUtils.generateToken(user.getEmail());
+        String token = jwtUtils.generateToken(user.getEmail(), user.getRole());
         return new AuthResponse(user, token);
     }
 
@@ -101,7 +101,7 @@ public class UserService {
             throw new RuntimeException("Not an admin account");
         }
 
-        String token = jwtUtils.generateToken(user.getEmail());
+        String token = jwtUtils.generateToken(user.getEmail(), user.getRole());
         return new AuthResponse(user, token);
     }
 }

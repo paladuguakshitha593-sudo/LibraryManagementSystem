@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/books/all", "/api/books/test", "/api/books/ai-diag").permitAll()
                 .requestMatchers("/api/books/add", "/api/books/{id}", "/api/books/{id}/like").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/api/borrow/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             );

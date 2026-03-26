@@ -10,11 +10,17 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    private final String jwtSecret = System.getProperty("JWT_SECRET", "default_secret_key_if_none_provided_must_be_long_enough");
+    private String getJwtSecret() {
+        String secret = System.getenv("JWT_SECRET");
+        if (secret == null || secret.isEmpty()) {
+            secret = System.getProperty("JWT_SECRET", "default_secret_key_if_none_provided_must_be_long_enough");
+        }
+        return secret;
+    }
     private final int jwtExpirationMs = 604800000; // 7 days
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(jwtSecret.getBytes());
+        return Keys.hmacShaKeyFor(getJwtSecret().getBytes());
     }
 
     public String generateToken(String username, String role) {

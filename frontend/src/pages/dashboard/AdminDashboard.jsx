@@ -9,7 +9,7 @@ import './Dashboard.css';
 
 const AdminDashboard = () => {
   const { user } = useAuth();
-  const [stats, setStats] = useState({ totalUsers: 0, totalBooks: 0, activeBorrows: 0, returnedBooks: 0 });
+  const [stats, setStats] = useState({ totalUsers: 0, totalBooks: 0, activeBorrows: 0, returnedBooks: 0, totalRevenue: 0 });
   const [chartData, setChartData] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,6 +17,7 @@ const AdminDashboard = () => {
   const [listData, setListData] = useState([]);
   const [activeView, setActiveView] = useState(null);
   const [listLoading, setListLoading] = useState(false);
+  const [paidRecords, setPaidRecords] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -31,7 +32,10 @@ const AdminDashboard = () => {
         api.get('/borrow/chart/weekly'),
         api.get('/borrow/notifications')
       ]);
-      setStats(statsRes.data || { totalUsers: 0, totalBooks: 0, activeBorrows: 0, returnedBooks: 0 });
+      setStats({
+        ...statsRes.data,
+        totalRevenue: chartRes.data.reduce((acc, curr) => acc + (curr.totalRevenue || 0), 0)
+      });
 
       setNotifications(notifRes.data);
       setChartData(chartRes.data.map(d => {
@@ -58,6 +62,7 @@ const AdminDashboard = () => {
       else if (type === 'activeLoans') endpoint = '/borrow/active-users-list';
       else if (type === 'returnedBooks') endpoint = '/borrow/returned-users-list';
       else if (type === 'totalBooks') endpoint = '/books/all';
+      else if (type === 'paidRecords') endpoint = '/borrow/paid-records';
 
       if (endpoint) {
         const res = await api.get(endpoint);
@@ -87,6 +92,7 @@ const AdminDashboard = () => {
       case 'activeLoans': return 'Users with Active Loans';
       case 'returnedBooks': return 'Users who Returned Books';
       case 'totalBooks': return 'Books Catalog';
+      case 'paidRecords': return 'Payment History & Paid Users';
       default: return '';
     }
   };
@@ -151,6 +157,16 @@ const AdminDashboard = () => {
                 <p className="stat-value">{stats.returnedBooks}</p>
               </div>
             </div>
+            <div 
+              className={`stat-card card clickable ${activeView === 'paidRecords' ? 'active' : ''}`}
+              onClick={() => fetchListData('paidRecords')}
+            >
+              <div className="stat-icon bg-success-light"><CheckCircle className="text-secondary" style={{color: '#10B981'}} /></div>
+              <div className="stat-info">
+                <h3>Paid Records</h3>
+                <p className="stat-value">View All</p>
+              </div>
+            </div>
           </div>
 
           {activeView && (
@@ -173,6 +189,14 @@ const AdminDashboard = () => {
                         <th>Category</th>
                         <th>Stock</th>
                       </tr>
+                    ) : activeView === 'paidRecords' ? (
+                      <tr>
+                        <th>User Name</th>
+                        <th>Book Title</th>
+                        <th>Amount Paid</th>
+                        <th>Borrow Date</th>
+                        <th>Status</th>
+                      </tr>
                     ) : (
                       <tr>
                         <th>ID</th>
@@ -194,6 +218,16 @@ const AdminDashboard = () => {
                           <td>{b.author}</td>
                           <td><span className="book-genre">{b.category}</span></td>
                           <td>{b.quantity}</td>
+                        </tr>
+                      ))
+                    ) : activeView === 'paidRecords' ? (
+                      listData.map(r => (
+                        <tr key={r.id}>
+                          <td style={{ fontWeight: 600 }}>{r.userName}</td>
+                          <td>{r.bookTitle}</td>
+                          <td style={{ color: '#10B981', fontWeight: 600 }}>₹{r.totalCost?.toFixed(2)}</td>
+                          <td>{r.borrowDate}</td>
+                          <td><span className="paid-badge">Paid</span></td>
                         </tr>
                       ))
                     ) : (

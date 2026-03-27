@@ -238,5 +238,34 @@ public class BorrowService {
         }
         return result;
     }
+
+    // Get list of paid borrow records with user and book details
+    public List<Map<String, Object>> getPaidUsersDetailed() {
+        List<BorrowRecord> records = borrowRepo.findByIsPaidTrue();
+        List<Map<String, Object>> detailed = new ArrayList<>();
+        
+        for (BorrowRecord r : records) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", r.getId());
+            map.put("userId", r.getUserId());
+            map.put("bookId", r.getBookId());
+            map.put("borrowDate", r.getBorrowDate());
+            map.put("returnDate", r.getReturnDate());
+            map.put("totalCost", r.getTotalCost());
+            map.put("isPaid", r.isPaid());
+            
+            userRepo.findById(r.getUserId()).ifPresent(u -> {
+                map.put("userName", u.getUsername());
+                map.put("userEmail", u.getEmail());
+            });
+            
+            bookRepo.findById(r.getBookId()).ifPresent(b -> {
+                map.put("bookTitle", b.getTitle());
+            });
+            
+            detailed.add(map);
+        }
+        return detailed;
+    }
 }
 

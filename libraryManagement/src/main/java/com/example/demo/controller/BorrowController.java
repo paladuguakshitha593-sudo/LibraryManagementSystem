@@ -105,5 +105,10 @@ public class BorrowController {
         all.forEach(n -> n.setRead(true));
         notificationRepo.saveAll(all);
     }
+
+    @GetMapping("/paid-records")
+    public List<Map<String, Object>> getPaidRecords() {
+        return borrowService.getPaidUsersDetailed();
+    }
 }
 

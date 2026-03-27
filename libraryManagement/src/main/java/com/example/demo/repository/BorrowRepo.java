@@ -21,4 +21,7 @@ public interface BorrowRepo extends JpaRepository<BorrowRecord, Long> {
 
     // Check if a user has already borrowed this book (and not returned it)
     boolean existsByUserIdAndBookIdAndReturnDateIsNull(Long userId, Long bookId);
+
+    // Get all paid borrow records
+    List<BorrowRecord> findByIsPaidTrue();
 }

@@ -43,6 +43,8 @@
 .bg-accent-light { background-color: rgba(245, 158, 11, 0.1); }
 .text-accent { color: #F59E0B; }
 
+.bg-success-light { background-color: rgba(16, 185, 129, 0.1); }
+
 .stat-info h3 {
   font-size: 0.875rem;
   color: var(--text-muted);
